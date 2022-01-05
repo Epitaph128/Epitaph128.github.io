@@ -1,0 +1,4 @@
+/* line 1, /vagrant/static_cms_builder/app/assets/stylesheets/dynamic.scss */
+.hide-dynamic {
+  visibility: hidden;
+}
