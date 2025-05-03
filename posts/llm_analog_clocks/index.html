@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width">
 
   <meta name="csrf-param" content="authenticity_token">
-<meta name="csrf-token" content="tRKUl8DxJBDFXx2G0r9f1LbNGddSbswF4WPjMNU9AjcF/IK6GQgW0p8kzuy0hQU/e7OmhZhu8z9HVb/3/iynRg==">
+<meta name="csrf-token" content="BQdOEN4aYGpGMvTDq1RsDoao9mEGZbN6VoN3fbKvrUCYlssN37AWXVakecvgPbGlGvE1DaN0JVGnK3TPIcd/Xg==">
   
 
   
@@ -51,11 +51,23 @@
 <p>This prompt tests spacial understanding to solve, as well as basic trigonometry. So far I have yet to find a small model able to solve this on my machine locally in one shot. Qwen3-30b a3b comes closest (but required manual correction to work.) From my testing, ChatGPT (free model) and Gemini 2.5 Pro Experimental are the only ones to 1-shot this test. I decided to enhance the test for more powerful LLM models (in this case, ChatGPT) with further refinements to the prompt to achieve <a href="/assets/clocks_gpt4o.html">this result.</a> The user's timezone and time are shown in the upper middle clock but it can be configured per clock to whatever the user wants.</p>
 
 <div class="center-align">
-<img src="/assets/post-middles/gemini_25_clock.jpg" alt="Gemini 2.5 Pro Experimental Design"><p>Here's Gemini 2.5 Pro Experimental one shotting it:</p>
+<p>Here's Gemini 2.5 Pro Experimental one shotting it:</p>
+<img src="/assets/post-middles/gemini_25_clock.jpg" alt="Gemini 2.5 Pro Experimental Design">
 </div>
 
 <div class="center-align">
-<img src="/assets/post-middles/deepseek_r1.jpg" alt="Deepseek R1_distill_llama_70b"><p>Here's what DeepSeek r1 comes up with. Interesting label rotation which wasn't requested.</p>
+<p>Here's what DeepSeek r1 comes up with:</p>
+<img src="/assets/post-middles/deepseek_r1.jpg" alt="Deepseek R1_distill_llama_70b">
+</div>
+
+<div class="center-align">
+<p>Grok 3 does pretty well with this as well.</p>
+<img src="/assets/post-middles/grok_3_clock.jpg" alt="Grok 3 clock">
+</div>
+
+<div class="center-align">
+<p>Claude 3.7s result doesn't look too great</p>
+<img src="/assets/post-middles/claude_3_7_clock.jpg" alt="Claude 3.7 clock">
 </div>
 
 </div>
