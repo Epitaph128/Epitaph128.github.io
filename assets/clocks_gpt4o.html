@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Timezone Clocks</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --clock-face-color: #f0f0f0;
+      --hand-color: #333333;
+      --text-color: #000000;
+      --box-color: #e0e0e0;
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --clock-face-color: #1e1e1e;
+      --hand-color: #ffffff;
+      --text-color: #ffffff;
+      --box-color: #1a1a1a;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    .clocks-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 20px;
+    }
+
+    .clock-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--box-color);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.5s, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .clock-wrapper:hover {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+    }
+
+    .timezone-label {
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .clock {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border: 6px solid var(--hand-color);
+      border-radius: 50%;
+      background: var(--clock-face-color);
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
+    .hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      background: var(--hand-color);
+      transform-origin: bottom;
+      transform: translateX(-50%) rotate(90deg);
+    }
+
+    .hour-hand {
+      width: 5px;
+      height: 50px;
+    }
+
+    .minute-hand {
+      width: 3px;
+      height: 70px;
+    }
+
+    .second-hand {
+      width: 2px;
+      height: 90px;
+      background: red;
+    }
+
+    .center-dot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: var(--hand-color);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    .number {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      line-height: 24px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .digital-clock {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    .toggle-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      background: var(--hand-color);
+      color: var(--clock-face-color);
+      border-radius: 5px;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    select {
+      margin-top: 10px;
+      padding: 5px;
+      font-size: 1rem;
+      background: var(--clock-face-color);
+      color: var(--text-color);
+      border: 1px solid var(--hand-color);
+      border-radius: 5px;
+      max-width: 200px;
+    }
+
+  </style>
+</head>
+<body>
+  <button class="toggle-button" id="toggle-mode">Toggle Light/Dark Mode</button>
+  <div class="clocks-container" id="clocks-container"></div>
+
+  <script>
+    const container = document.getElementById('clocks-container');
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const allTimezones = Intl.supportedValuesOf('timeZone');
+    const shuffledTimezones = allTimezones.filter(tz => tz !== userTimezone).sort(() => 0.5 - Math.random());
+
+    const clocks = [];
+
+    for (let i = 0; i < 9; i++) {
+      const clockWrapper = document.createElement('div');
+      clockWrapper.className = 'clock-wrapper';
+
+      const timezoneLabel = document.createElement('div');
+      timezoneLabel.className = 'timezone-label';
+      timezoneLabel.id = `timezone-label${i+1}`;
+
+      const clock = document.createElement('div');
+      clock.className = 'clock';
+      clock.id = `clock${i+1}`;
+
+      const digital = document.createElement('div');
+      digital.className = 'digital-clock';
+      digital.id = `digital-clock${i+1}`;
+
+      const select = document.createElement('select');
+      select.id = `timezone${i+1}`;
+
+      allTimezones.forEach(tz => {
+        const option = document.createElement('option');
+        option.value = tz;
+        option.textContent = tz;
+        select.appendChild(option);
+      });
+
+      clockWrapper.appendChild(timezoneLabel);
+      clockWrapper.appendChild(clock);
+      clockWrapper.appendChild(digital);
+      clockWrapper.appendChild(select);
+      container.appendChild(clockWrapper);
+
+      const defaultTz = (i === 1) ? userTimezone : shuffledTimezones.pop();
+      clocks.push({ clockId: clock.id, digitalId: digital.id, timezoneId: select.id, timezoneLabelId: timezoneLabel.id, defaultTz });
+    }
+
+    function createClock(clockElement) {
+      for (let i = 1; i <= 12; i++) {
+        const number = document.createElement('div');
+        number.classList.add('number');
+        number.innerText = i;
+        const angle = (i * 30) - 90;
+        const radius = 80;
+        const x = radius * Math.cos(angle * Math.PI / 180);
+        const y = radius * Math.sin(angle * Math.PI / 180);
+        number.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+        clockElement.appendChild(number);
+      }
+
+      const hourHand = document.createElement('div');
+      hourHand.classList.add('hand', 'hour-hand');
+      clockElement.appendChild(hourHand);
+
+      const minuteHand = document.createElement('div');
+      minuteHand.classList.add('hand', 'minute-hand');
+      clockElement.appendChild(minuteHand);
+
+      const secondHand = document.createElement('div');
+      secondHand.classList.add('hand', 'second-hand');
+      clockElement.appendChild(secondHand);
+
+      const centerDot = document.createElement('div');
+      centerDot.classList.add('center-dot');
+      clockElement.appendChild(centerDot);
+
+      return { hourHand, minuteHand, secondHand };
+    }
+
+    const clockInstances = clocks.map(({ clockId, timezoneId, timezoneLabelId, defaultTz }) => {
+      const clockElement = document.getElementById(clockId);
+      const timezoneSelector = document.getElementById(timezoneId);
+      const timezoneLabel = document.getElementById(timezoneLabelId);
+
+      timezoneSelector.value = defaultTz;
+      timezoneLabel.textContent = defaultTz;
+
+      timezoneSelector.addEventListener('change', () => {
+        timezoneLabel.textContent = timezoneSelector.value;
+      });
+
+      return { ...createClock(clockElement), timezoneSelector };
+    });
+
+    function updateClocks() {
+      clockInstances.forEach((instance, index) => {
+        const timezone = instance.timezoneSelector.value;
+        const now = new Date(new Date().toLocaleString('en-US', { timeZone: timezone }));
+
+        const ms = now.getMilliseconds();
+        const seconds = now.getSeconds() + ms / 1000;
+        const minutes = now.getMinutes() + seconds / 60;
+        const hours = now.getHours() + minutes / 60;
+
+        const secondDegrees = (seconds / 60) * 360;
+        const minuteDegrees = (minutes / 60) * 360;
+        const hourDegrees = (hours % 12) / 12 * 360;
+
+        instance.secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
+        instance.minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
+        instance.hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+
+        document.getElementById(`digital-clock${index+1}`).textContent = now.toLocaleTimeString();
+      });
+
+      requestAnimationFrame(updateClocks);
+    }
+
+    document.getElementById('toggle-mode').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
+
+    requestAnimationFrame(updateClocks);
+  </script>
+</body>
+</html>

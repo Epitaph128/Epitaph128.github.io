@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Epitaph64's Blog</title>
+	<meta name="viewport" content="width=device-width">
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="tRKUl8DxJBDFXx2G0r9f1LbNGddSbswF4WPjMNU9AjcF/IK6GQgW0p8kzuy0hQU/e7OmhZhu8z9HVb/3/iynRg==">
+  
+
+  
+
+
+
+<link rel="stylesheet" media="screen" href="/assets/home.self-e73f6a568a2ee7d089abbb7519912e6ddba542d9c3e0a922008317f06f0b3868.css?body=1">
+<link rel="stylesheet" media="screen" href="/assets/posts.self-2dcca5a9d68b4c7bd750f0f8f7a64f4a519d990026ae2702f808cd3d346c0f4b.css?body=1">
+<link rel="stylesheet" media="screen" href="/assets/application.self-f0d704deea029cf000697e2c0181ec173a1b474645466ed843eb5ee7bb215794.css?body=1">
+  
+
+  </head>
+
+  <body>
+    <div class="link-container">
+<h1><a href="/">Home</a></h1>
+</div>
+
+<div class="post-div">
+
+<div class="post">
+	<h2 class="post-title">
+		LLM Analog Clock Test
+	</h2>
+	<p class="post-date">
+	  05/03/2025 10:18 AM MST
+
+	</p>
+	<p class="post-categories">
+		AI, LLMs
+	</p>
+		<p>Hello everyone, I thought I'd make a post here regarding my number one test question for coding LLMs lately:</p>
+
+<div class="center-align">
+<img src="/assets/post-headers/clock_test.jpg" alt="Example Analog Clock Design"><p><a href="/assets/clocks_gpt4o.html">Click here to try the ChatGPT version</a></p>
+</div>
+
+<p>"Please generate an html file with css and javascript embedded which implements an analog clock display. It should display the current system time. Make sure to add hour labels around the clock. Also, there should be a digital read-out below the analog clock, and a light and dark mode toggle."</p>
+
+<p>This prompt tests spacial understanding to solve, as well as basic trigonometry. So far I have yet to find a small model able to solve this on my machine locally in one shot. Qwen3-30b a3b comes closest (but required manual correction to work.) From my testing, ChatGPT (free model) and Gemini 2.5 Pro Experimental are the only ones to 1-shot this test. I decided to enhance the test for more powerful LLM models (in this case, ChatGPT) with further refinements to the prompt to achieve <a href="/assets/clocks_gpt4o.html">this result.</a> The user's timezone and time are shown in the upper middle clock but it can be configured per clock to whatever the user wants.</p>
+
+<div class="center-align">
+<img src="/assets/post-middles/gemini_25_clock.jpg" alt="Gemini 2.5 Pro Experimental Design"><p>Here's Gemini 2.5 Pro Experimental one shotting it:</p>
+</div>
+
+<div class="center-align">
+<img src="/assets/post-middles/deepseek_r1.jpg" alt="Deepseek R1_distill_llama_70b"><p>Here's what DeepSeek r1 comes up with. Interesting label rotation which wasn't requested.</p>
+</div>
+
+</div>
+
+
+<hr>
+
+
+<div class="link-container">
+<a class="hide-dynamic" href="/">Home</a>
+</div>
+
+</div>
+
+  </body>
+</html>
